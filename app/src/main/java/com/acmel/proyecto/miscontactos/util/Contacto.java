@@ -13,6 +13,7 @@ public class Contacto {
         this.direccion = direccion;
     }
 
+    //<editor-fold desc="METODOS GETER">
     public String getNombre() {
         return nombre;
     }
@@ -28,7 +29,9 @@ public class Contacto {
     public String getDireccion() {
         return direccion;
     }
+    //</editor-fold>
 
+    //<editor-fold desc="METODOS SETER">
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
@@ -44,4 +47,5 @@ public class Contacto {
     public void setDireccion(String direccion) {
         this.direccion = direccion;
     }
+    //</editor-fold>
 }
