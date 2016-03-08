@@ -28,7 +28,7 @@ public class ContactListAdapter extends ArrayAdapter<Contacto>{
             view = ctx.getLayoutInflater().inflate(R.layout.listview_item, parent, false);
         }
             Contacto actual = this.getItem(position);
-            inicializarCamposDeTexto(view actual);
+            inicializarCamposDeTexto(view, actual);
             return view;
 
     }
