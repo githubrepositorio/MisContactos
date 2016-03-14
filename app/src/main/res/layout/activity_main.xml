@@ -35,7 +35,8 @@
                     android:id="@+id/tab1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:layout_margin="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -47,6 +48,16 @@
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
                         android:layout_gravity="center_horizontal" />
+
+                    <ImageView
+                        android:layout_width="96dp"
+                        android:layout_height="96dp"
+                        android:id="@+id/imageView"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
+                        android:scaleType="fitCenter"
+                        android:src="@drawable/contacto"
+                        android:onClick="onImgClik"/>
 
                     <EditText
                         android:layout_width="match_parent"
@@ -90,14 +101,15 @@
                         android:hint="Dirección" />
 
                     <Button
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Agregar Contacto"
                         android:id="@+id/btnAgregar"
                         android:layout_below="@+id/cmpDireccion"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="15dp"
-                        android:onClick="onClick"/>
+                        android:onClick="onClick"
+                        android:layout_gravity="center_horizontal" />
                 </LinearLayout>
 
                 <LinearLayout

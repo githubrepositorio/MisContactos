@@ -1,14 +1,19 @@
 package com.acmel.proyecto.miscontactos;
 
+import android.content.Intent;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.Toast;
 
+import com.acmel.proyecto.miscontactos.util.ContactListAdapter;
 import com.acmel.proyecto.miscontactos.util.Contacto;
 import com.acmel.proyecto.miscontactos.util.TextChangedListener;
 
@@ -18,16 +23,25 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private EditText txtNombre, txtTelefono, txtEmail, txtDireccion;
-    private List<Contacto> contactos = new ArrayList<Contacto>();
+    private ArrayAdapter<Contacto> adapter;
     private ListView contactsListView;
+    private ImageView imgViewContacto;
     private Button btnAgregar;
+    private int request_code = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         inicializarComponentesUI();
+        inicializarListaContactos();
         inicializarTabs();
+    }
+
+    private void inicializarListaContactos() {
+        adapter = new ContactListAdapter(this,new ArrayList<Contacto>());
+        contactsListView.setAdapter(adapter);
+
     }
 
     private void inicializarTabs() {
@@ -101,16 +115,14 @@ public class MainActivity extends AppCompatActivity {
         String mesg = String.format("%s ha sido agregado a la lista!",txtNombre.getText());
         Toast.makeText(this, mesg, Toast.LENGTH_SHORT).show();
         btnAgregar.setEnabled(false);
-        inicializarListView();
         limpíarCampos();
     }
 
-    private void inicializarListView() {
 
-    }
 
     private void agregarContacto(String nombre, String telefono, String email, String direccion) {
-        contactos.add(new Contacto(nombre,telefono,email,direccion));
+        Contacto nuevo = new Contacto(nombre,telefono,email,direccion);
+        adapter.add(nuevo);
     }
 
     private void limpíarCampos() {
@@ -137,5 +149,24 @@ public class MainActivity extends AppCompatActivity {
             btnAgregar.setEnabled(false);
         }
     }
-    }
+
+    public void onImgClik(View view) {
+        Intent intent = null;
+        //Verificamos la version de la plataforma
+        if(Build.VERSION.SDK_INT < 19 ){
+            //android JellyBean 4.3 o anteriores
+            intent = new Intent();
+            intent.setAction(Intent.ACTION_GET_CONTENT);
+            intent.setType("image/*");
+            startActivityForResult(intent,request_code);
+
+
+        }else{
+            //android KitKat  4.4 o superiores
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addCategory(Intent.CATEGORY_OPENABLE);
+            intent.setType("image/*");
+            startActivityForResult(intent,request_code);
+        }
+}}
 
