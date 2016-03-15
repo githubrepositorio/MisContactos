@@ -1,9 +1,11 @@
 package com.acmel.proyecto.miscontactos.util;
 
 import android.app.Activity;
+import android.net.Uri;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.acmel.proyecto.miscontactos.R;
@@ -46,5 +48,8 @@ public class ContactListAdapter extends ArrayAdapter<Contacto>{
 
         textView = (TextView) view.findViewById(R.id.viewDireccion);
         textView.setText(actual.getDireccion());
+
+        ImageView ivContactimage = (ImageView) view.findViewById(R.id.ivContactimage);
+        ivContactimage.setImageURI(Uri.parse(actual.getImageUri()));
     }
 }

@@ -1,6 +1,7 @@
 package com.acmel.proyecto.miscontactos;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         txtEmail = (EditText) findViewById(R.id.cmpEmail);
         txtDireccion = (EditText) findViewById(R.id.cmpDireccion);
         contactsListView = (ListView)findViewById(R.id.listView);
-
+        imgViewContacto = (ImageView) findViewById(R.id.imgViewContacto);
         btnAgregar = (Button) findViewById(R.id.btnAgregar);
         btnAgregar.setEnabled(false);
 
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 txtNombre.getText().toString(),
                 txtTelefono.getText().toString(),
                 txtEmail.getText().toString(),
-                txtDireccion.getText().toString()
+                txtDireccion.getText().toString(),
+                (String)imgViewContacto.getTag() //
+
         );
         String mesg = String.format("%s ha sido agregado a la lista!",txtNombre.getText());
         Toast.makeText(this, mesg, Toast.LENGTH_SHORT).show();
@@ -120,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private void agregarContacto(String nombre, String telefono, String email, String direccion) {
-        Contacto nuevo = new Contacto(nombre,telefono,email,direccion);
+    private void agregarContacto(String nombre, String telefono, String email, String direccion, String imageUri) {
+        Contacto nuevo = new Contacto(nombre,telefono,email,direccion,imageUri);
         adapter.add(nuevo);
     }
 
@@ -130,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
         txtTelefono.getText().clear();
         txtEmail.getText().clear();
         txtDireccion.getText().clear();
+        // Restablecer la imagen predeterminada del contacto
+        imgViewContacto.setImageResource(R.drawable.contacto);
         txtNombre.requestFocus();
     }
 
@@ -157,16 +162,24 @@ public class MainActivity extends AppCompatActivity {
             //android JellyBean 4.3 o anteriores
             intent = new Intent();
             intent.setAction(Intent.ACTION_GET_CONTENT);
-            intent.setType("image/*");
-            startActivityForResult(intent,request_code);
-
-
         }else{
             //android KitKat  4.4 o superiores
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
             intent.addCategory(Intent.CATEGORY_OPENABLE);
-            intent.setType("image/*");
-            startActivityForResult(intent,request_code);
         }
-}}
+        intent.setType("image/*");
+        startActivityForResult(intent,request_code);
+}
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+       if(resultCode == RESULT_OK && requestCode == request_code){
+           imgViewContacto.setImageURI(data.getData());
+           // Utilizamos el atributo TAG para almacenar la Uri al archivo seleccionado
+           imgViewContacto.setTag(data.getData());
+
+
+       }
+    }
+}
 
